@@ -1,0 +1,23 @@
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-container {
+    width: 80%;
+    place-self: center;
+    margin: 10px;
+}
+
+.form-as-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 20px;
+}
+
+.form-btn {
+    height: 50px;
+    place-self: center;
+}

@@ -1,0 +1,27 @@
+<div class="form-container">
+  <h2 style="text-align: center;">Agregar producto</h2>
+  <form class="form-as-container" (submit)="submitHandler($event)" [formGroup]="nuevoProducto">
+    <div class="mb-3 form-floating input-position">
+      <input class="form-control" id="floatingInput" formControlName="descripcion">
+      <label for="floatingInput">Descripcion</label>
+    </div>
+    <div class="mb-3 form-floating input-position">
+      <input type="number" class="form-control" id="floatingInput" formControlName="costo">
+      <label for="floatingInput">Costo</label>
+    </div>
+    <div class="mb-3 form-floating input-position">
+      <input type="number" class="form-control" id="floatingInput" formControlName="precio_venta">
+      <label for="floatingInput">Precio</label>
+    </div>
+    <div class="col-md">
+      <div class="form-floating">
+        <select class="form-select" id="floatingSelectGrid" formControlName="estado">
+          <option value="activo" selected>Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+        <label for="floatingSelectGrid">Estado del producto</label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary form-btn">Agregar</button>
+  </form>
+</div>
