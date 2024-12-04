@@ -1,40 +1,90 @@
 <div class="main-container">
   <Form-Component (productoAgregado)="nuevoProductoHandler($event)" />
-  <div class="table-container">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Costo</th>
-          <th scope="col">Descripcion</th>
-          <th scope="col">Estado</th>
-          <th>Precio de venta</th>
-          <th> </th>
-          <th> </th>
-        </tr>
-      </thead>
-      <tbody>
-
-        @for (producto of listaProductos(); track $index) {
+  <form [formGroup]="actualizarProducto">
+    <div class="table-container">
+      <table class="table" style="width: 90%; place-self: center;">
+        <thead>
           <tr>
-            @if (signalBooleans()[$index]) {
-
-            } @else {
-              <td>{{ producto.producto_id }}</td>
-              <td>{{ producto.costo }}</td>
-              <td>{{ producto.descripcion }}</td>
-              <td>{{ producto.estado }}</td>
-              <td>{{ producto.producto_id }}</td>
-              <td>
-                <button (click)="eliminarProducto(producto)">Eliminar</button>
-              </td>
-              <td>
-                <button>Actualizar</button>
-              </td>
-            }
+            <th scope="col">ID</th>
+            <th scope="col">Costo</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Precio de venta</th>
+            <th scope="col"> </th>
+            <th scope="col"> </th>
           </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+          @for (producto of listaProductos(); track $index) {
+            <tr>
+              <td>
+                {{ producto.producto_id }}
+              </td>
+              <td>
+                @if (signalBooleans()[$index]) {
+                  <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingInput" formControlName="costo">
+                    <label for="floatingInput">Costo</label>
+                  </div>
+                } @else {
+                  {{ producto.costo | currency: 'Q' }}
+                }
+              </td>
+              <td>
+                @if(signalBooleans()[$index]) {
+                  <div class="form-floating mb-3">
+                    <input class="form-control" formControlName="descripcion">
+                    <label for="floatingInput">Descripcion</label>
+                  </div>
+                } @else {
+                  {{ producto.descripcion }}
+                }
+              </td>
+              <td>
+                @if (signalBooleans()[$index]) {
+                  <div class="form-floating">
+                    <select class="form-select" formControlName="estado">
+                      <option value="activo">Activo</option>
+                      <option value="inactivo">Inactivo</option>
+                    </select>
+                    <label for="floatingSelectGrid">Estado del producto</label>
+                  </div>
+                } @else {
+                  {{ producto.estado }}
+                }
+              </td>
+              <td>
+                @if (signalBooleans()[$index]) {
+                  <div class="form-floating mb-3">
+                    <input type="number" class="form-control" formControlName="precio_venta">
+                    <label>Precio de venta</label>
+                  </div>
+                } @else {
+                  {{ producto.precio_venta | currency: 'Q' }}
+                }
+              </td>
+              <td>
+                <button
+                  [class]="signalBooleans()[$index] ? 'btn btn-success' : 'btn btn-warning'"
+                  (click)="signalBooleans()[$index] ? guardarCambiosHandler($index) : actualizarBooleans($index, producto)"
+                  [disabled]="signalBooleans().some(checkTrue) && !signalBooleans()[$index]"
+                >
+                  {{ signalBooleans()[$index] ? 'Guardar': 'Actualizar' }}
+                </button>
+              </td>
+              <td>
+                <button
+                  (click)="signalBooleans()[$index] ? cancelarEdicion($index) : eliminarProducto(producto)"
+                  class="btn btn-danger"
+                  [disabled]="signalBooleans().some(checkTrue) && !signalBooleans()[$index]"
+                >
+                  {{ signalBooleans()[$index] ? 'Cancelar' : 'Eliminar' }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </form>
 </div>
